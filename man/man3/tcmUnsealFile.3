@@ -1,0 +1,57 @@
+.\" Copyright (C) 2005, 2006 International Business Machines Corporation
+.\"
+.de Sh \" Subsection
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp \" Vertical space (when we can't use .PP)
+.if t .sp .5v
+.if n .sp
+..
+.de Ip \" List item
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.TH "tcm_sealdata" 3 "2005-08-10"  "TCM Management"
+.ce 1
+TCM Management - tcmUnsealFile, tpmUnsealShred, tpmUnsealStrerror
+.SH NAME
+tcmUnsealFile, tpmUnsealShred, tpmUnsealStrerror - unseal routines
+.SH "SYNOPSIS"
+.ad l
+.hy 0
+.B #include <tcm_unseal/tcm_unseal.h>
+.sp
+.B int tcmUnsealFile(char* file, char** data, int* size);
+.br
+.B void tpmUnsealShred(char* data, int size);
+.br
+.B char* tpmUnsealStrerror(int rc);
+.br
+
+.SH "DESCRIPTION"
+.PP
+The functions in the tpmUnseal family allow access to a piece of sensitive data that has been sealed to the TCM configuration of a given system if the conditions are right, that is the SRK has not changed and the PCRS (if any) specified at seal time are of the appropriate value.
+
+The tcmUnsealFile function returns the contents of the file unsealed in the data buffer.  The memory at *data must be freed by the caller.
+
+The tpmUnsealShred function will zero and free the memory.
+
+The tpmUnsealStrerror function will convert the return code from tcmUnsealFile into a human comprehensible string using and internal errno variable.
+
+.SH "Return Value"
+The tcmUnsealFile function returns 0 on success and a negative number on error.
+The tpmUnsealStrerror function returns the error string on success and the empty string on an error.
+
+.SH "SEE ALSO"
+.PP
+\fBtcm_sealdata\fR(1)
+
+.SH "REPORTING BUGS"
+Report bugs to <trousers-users@lists.sourceforge.net>
